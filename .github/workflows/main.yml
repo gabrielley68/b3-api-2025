@@ -35,8 +35,8 @@ jobs:
       - name: Copy SSH keys
         run: |
           mkdir -p ~/.ssh/
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" >> id_ed25519
-          echo "${{ secrets.SSH_PUBLIC_KEY }}" >> id_ed25519.pub
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" >> ~/.ssh/id_ed25519
+          echo "${{ secrets.SSH_PUBLIC_KEY }}" >> ~/.ssh/id_ed25519.pub
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
