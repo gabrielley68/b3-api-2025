@@ -18,9 +18,6 @@ async function logger(req, res, next){
         const logDate = now.toISOString().split('T')[0];
         const logFile = path.join(LOGS_DIR, `${logDate}.log`);
 
-        const method = req.method;
-        const url = req.originalUrl;
-
         const logEntry = [
             new Date().toISOString(),
             req.ip,

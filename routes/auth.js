@@ -2,8 +2,6 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const { Op } = require('sequelize');
-
 const { User } = require('../models');
 
 const router = express.Router();
@@ -125,6 +123,7 @@ router.post('/register', async (req, res) => {
         await user.validate({fields: ['email']});
     } catch (error){
         res.status(400);
+        console.error(error);
         res.json({error: 'The email is not valid'});
         return;
     }
@@ -270,7 +269,7 @@ router.post('/login', async (req, res) => {
  *               type: string
  *               example: nok
  */
-router.post('/verify-token', (req, res, next) => {
+router.post('/verify-token', (req, res) => {
     const bearer = req.headers.authorization;
     if(!bearer.startsWith('Bearer ')){
         // Renvoyer une erreur
@@ -279,7 +278,7 @@ router.post('/verify-token', (req, res, next) => {
 
     const token = bearer.split(" ")[1];
 
-    jwt.verify(token, process.env.JWT_PRIVATE_TOKEN, (err, payload) => {
+    jwt.verify(token, process.env.JWT_PRIVATE_TOKEN, (err) => {
         if(err){
             res.end("nok")
         } else {

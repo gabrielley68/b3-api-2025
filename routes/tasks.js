@@ -427,7 +427,7 @@ router.patch('/:id', async (req, res) => {
             return res.status(400).send(error.message);
         }
 
-        for(key in processedBody){
+        for(const key in processedBody){
             if(processedBody[key] == undefined){
                 delete processedBody[key];
             }
