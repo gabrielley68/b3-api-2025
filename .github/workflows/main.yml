@@ -42,4 +42,4 @@ jobs:
 
       - name: Deploy on SSH
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "mkdir salut"
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "./scripts/deploy_api.sh"
