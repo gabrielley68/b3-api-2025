@@ -26,7 +26,7 @@ jobs:
     
     needs: [lint]
 
-    if: github.refs == 'refs/head/master'
+    if: github.ref == 'refs/head/master'
 
     steps:
       - name: Checkout codebase
