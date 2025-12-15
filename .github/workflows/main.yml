@@ -20,3 +20,26 @@ jobs:
         
       - name : Eslint
         run: npm run lint
+
+  deploy:
+    runs-on: ubuntu-latest
+    
+    needs: [lint]
+
+    if: github.refs == 'refs/head/main'
+
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v6
+
+      - name: Copy SSH keys
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" >> id_ed25519
+          echo "${{ secrets.SSH_PUBLIC_KEY }}" >> id_ed25519.pub
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy on SSH
+        run: |
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "mkdir salut"
